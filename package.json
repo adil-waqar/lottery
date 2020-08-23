@@ -1,0 +1,21 @@
+{
+  "name": "lottery",
+  "version": "1.0.0",
+  "description": "This tool automatically checks your bonds for a prize on their draw dates.",
+  "main": "build/app.js",
+  "scripts": {
+    "dev": "nodemon",
+    "build": "rm -rf build && tsc",
+    "start": "node ./build/src/app.js"
+  },
+  "author": "Adil Waqar",
+  "license": "ISC",
+  "dependencies": {
+    "@types/cheerio": "^0.22.21",
+    "axios": "^0.20.0",
+    "cheerio": "^1.0.0-rc.3",
+    "logform": "^2.2.0",
+    "nodemailer": "^6.4.11",
+    "winston": "^3.3.3"
+  }
+}
