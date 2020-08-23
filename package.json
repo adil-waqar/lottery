@@ -6,12 +6,13 @@
     "node": "14.7.0",
     "npm": "6.14.7"
   },
-  "main": "build/app.js",
+  "main": "./build/app.js",
   "scripts": {
     "dev": "nodemon",
-    "build": "rm -rf build && tsc",
-    "start": "node ./build/src/app.js",
-    "postinstall": "npm run build"
+    "build": "tsc",
+    "prebuild": "rm -rf build",
+    "start": "node ./build/app.js",
+    "postinstall": "rm -rf build && tsc"
   },
   "author": "Adil Waqar",
   "license": "ISC",
@@ -21,7 +22,7 @@
     "cheerio": "^1.0.0-rc.3",
     "logform": "^2.2.0",
     "nodemailer": "^6.4.11",
-    "tsc": "^1.20150623.0",
+    "typescript": "^4.0.2",
     "winston": "^3.3.3"
   }
 }
