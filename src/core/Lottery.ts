@@ -36,11 +36,11 @@ class Lottery {
           }
         }
       }
+      this.setState(LotteryState.DOWN);
     } catch (e) {
       log.error(`Exception occured in run() of Lottery: `, e);
     }
 
-    this.setState(LotteryState.DOWN);
     log.info(`The state of lottery at ${new Date()} is: ${this.getState()}`);
   }
 
