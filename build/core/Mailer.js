@@ -59,14 +59,14 @@ var Mailer = /** @class */ (function () {
     }
     Mailer.prototype.sendEmail = function (url) {
         return __awaiter(this, void 0, void 0, function () {
-            var data, formHeaders, _, e_1;
+            var data, formHeaders, response, e_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        logger_1.default.info("Inside send email: " + process.env.MAILGUN_DOMAIN);
+                        logger_1.default.info("Sending email.");
                         data = new form_data_1.default();
                         data.append('from', 'BondChecker <adil.waqar@lottery.com>');
-                        data.append('to', 'adil.waqar78@hotmail.com');
+                        data.append('to', process.env.EMAIL_TO);
                         data.append('subject', 'Bond Alert');
                         data.append('text', 'asd');
                         formHeaders = data.getHeaders();
@@ -77,8 +77,8 @@ var Mailer = /** @class */ (function () {
                                 headers: __assign({}, formHeaders)
                             })];
                     case 2:
-                        _ = _a.sent();
-                        logger_1.default.info('Sent an email as alert.');
+                        response = _a.sent();
+                        logger_1.default.info("Sent an email as alert. Response payload: " + JSON.stringify(response, null, 4));
                         return [3 /*break*/, 4];
                     case 3:
                         e_1 = _a.sent();

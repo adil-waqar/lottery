@@ -8,7 +8,6 @@ var Lottery_1 = __importDefault(require("./core/Lottery"));
 var dotenv_1 = __importDefault(require("dotenv"));
 try {
     dotenv_1.default.config();
-    logger_1.default.info("Email Envs: " + process.env.MAILGUN_DOMAIN);
     var configs = require('../lottery.json');
     var lottery = new Lottery_1.default(configs);
     lottery.run();
