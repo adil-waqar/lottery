@@ -31,9 +31,7 @@ class Mailer implements IMailer {
         )}`
       );
     } catch (e) {
-      log.error(
-        `Something went wrong while sending email. ${JSON.stringify(e)}`
-      );
+      log.error(`Something went wrong while sending email. `, e);
     }
   }
 }
