@@ -28,6 +28,7 @@ class Lottery {
 
     for (let bond in this.bonds) {
       const currentDate: Date = new Date();
+      log.debug(`Current date: ${currentDate}`);
       currentDate.setHours(0, 0, 0, 0);
       for (let draw of this.draws[bond]) {
         if (toDate(draw).getTime() === currentDate.getTime()) {
