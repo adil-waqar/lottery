@@ -26,14 +26,18 @@ class Lottery {
   async run(): Promise<void> {
     log.info(`The state of lottery at ${new Date()} is: ${this.getState()}`);
 
-    for (let bond in this.bonds) {
-      const currentDate: Date = new Date();
-      currentDate.setHours(0, 0, 0, 0);
-      for (let draw of this.draws[bond]) {
-        if (toDate(draw).getTime() === currentDate.getTime()) {
-          await this.checkForLottery(bond);
+    try {
+      for (let bond in this.bonds) {
+        const currentDate: Date = new Date();
+        currentDate.setHours(0, 0, 0, 0);
+        for (let draw of this.draws[bond]) {
+          if (toDate(draw).getTime() === currentDate.getTime()) {
+            await this.checkForLottery(bond);
+          }
         }
       }
+    } catch (e) {
+      log.error(`Exception occured in run() of Lottery: `, e);
     }
 
     this.setState(LotteryState.DOWN);
@@ -68,7 +72,7 @@ class Lottery {
         );
       }
     } catch (e) {
-      log.error(`Some error occured while requesting for bond results: ${e}`);
+      log.error(`Some error occured while requesting for bond results: `, e);
     }
   }
 

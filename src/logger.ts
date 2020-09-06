@@ -11,7 +11,9 @@ const logger = winston.createLogger({
       info.timestamp = moment()
         .tz(process.env.TZ as string)
         .format();
-      return `${info.timestamp} [${info.level}]: ${info.message}`;
+      return `${info.timestamp} [${info.level}]: ${
+        !info.stack ? info.message : info.message + '. ' + info.stack
+      }`;
     })
   ),
   transports: [new winston.transports.Console()],
