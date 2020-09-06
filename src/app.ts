@@ -10,6 +10,6 @@ try {
   const lottery: Lottery = new Lottery(configs, new Mailer());
   lottery.run();
 } catch (e) {
-  log.error('There was an error resolving lottery.json.', e);
+  log.error('There was an error running lottery.', e);
   process.exit(1);
 }

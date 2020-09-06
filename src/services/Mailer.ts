@@ -1,6 +1,7 @@
 import Axios from 'axios';
 import formData from 'form-data';
 import log from '../logger';
+import IMailer from '../interfaces/IMailer';
 
 class Mailer implements IMailer {
   private emailURL: string;
@@ -30,7 +31,6 @@ class Mailer implements IMailer {
         )}`
       );
     } catch (e) {
-      log.debug(`Logging email URL: ${this.emailURL}`);
       log.error(
         `Something went wrong while sending email. ${JSON.stringify(e)}`
       );

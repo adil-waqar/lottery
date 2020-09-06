@@ -3,6 +3,7 @@ import config from '../config';
 import { toDate } from '../utils/ToDate';
 import Axios from 'axios';
 import cheerio from 'cheerio';
+import IMailer from '../interfaces/IMailer';
 
 enum LotteryState {
   UP = 'UP',
