@@ -43,6 +43,7 @@ var logger_1 = __importDefault(require("../logger"));
 var ToDate_1 = require("../utils/ToDate");
 var axios_1 = __importDefault(require("axios"));
 var cheerio_1 = __importDefault(require("cheerio"));
+var Mailer_1 = __importDefault(require("./Mailer"));
 var LotteryState;
 (function (LotteryState) {
     LotteryState["UP"] = "UP";
@@ -105,25 +106,31 @@ var Lottery = /** @class */ (function () {
                         bonds = this.bonds[bond].join('%2C');
                         _a.label = 1;
                     case 1:
-                        _a.trys.push([1, 3, , 4]);
+                        _a.trys.push([1, 6, , 7]);
                         return [4 /*yield*/, axios_1.default.get("http://sammars.biz/search.asp?xp=psearch&BondType=" + bond + "&From=&To=&List=" + bonds)];
                     case 2:
                         data = (_a.sent()).data;
                         $ = cheerio_1.default.load(data);
                         textContent = $.root().text();
-                        if (textContent.indexOf('Congratulations') >= 0)
-                            logger_1.default.info("Congratulations! You've won a prize against the bond " + bond + ". For more details, go to sammars.biz.");
-                        else if (textContent.indexOf('Sorry') >= 0)
+                        if (!(textContent.indexOf('Congratulations') >= 0)) return [3 /*break*/, 4];
+                        logger_1.default.info("Congratulations! You've won a prize against the bond " + bond + ". For more details, go to sammars.biz.");
+                        return [4 /*yield*/, new Mailer_1.default().sendEmail('')];
+                    case 3:
+                        _a.sent();
+                        return [3 /*break*/, 5];
+                    case 4:
+                        if (textContent.indexOf('Sorry') >= 0)
                             logger_1.default.info("I'm sorry. I checked for lottery against the bond " + bond + " and founded no prize. Better luck next time!");
                         else {
                             logger_1.default.error('I think the HTML of sammars.biz changed, go check it out and update the code!');
                         }
-                        return [3 /*break*/, 4];
-                    case 3:
+                        _a.label = 5;
+                    case 5: return [3 /*break*/, 7];
+                    case 6:
                         e_1 = _a.sent();
                         logger_1.default.error("Some error occured while requesting for bond results: " + e_1);
-                        return [3 /*break*/, 4];
-                    case 4: return [2 /*return*/];
+                        return [3 /*break*/, 7];
+                    case 7: return [2 /*return*/];
                 }
             });
         });

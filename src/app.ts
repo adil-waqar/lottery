@@ -5,7 +5,6 @@ import env from 'dotenv';
 
 try {
   env.config();
-  log.info(`Email Envs: ${process.env.MAILGUN_DOMAIN}`);
   const configs: config = require('../lottery.json');
   const lottery: Lottery = new Lottery(configs);
   lottery.run();

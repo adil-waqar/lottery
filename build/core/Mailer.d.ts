@@ -1,5 +1,5 @@
 declare class Mailer {
-    private transporter;
-    constructor();
+    private emailURL;
+    sendEmail(url: string): Promise<void>;
 }
 export default Mailer;
