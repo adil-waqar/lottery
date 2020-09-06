@@ -1,6 +1,6 @@
 import log from './logger';
 import Lottery from './core/Lottery';
-import config from './config';
+import config from './interfaces/IConfig';
 import env from 'dotenv';
 import Mailer from './services/Mailer';
 

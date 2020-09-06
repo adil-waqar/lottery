@@ -1,5 +1,5 @@
 import log from '../logger';
-import config from '../config';
+import config from '../interfaces/IConfig';
 import { toDate } from '../utils/ToDate';
 import Axios from 'axios';
 import cheerio from 'cheerio';
