@@ -24,11 +24,10 @@ class Lottery {
   }
 
   async run(): Promise<void> {
-    log.info(`The state of lottery is: ${this.getState()}`);
+    log.info(`The state of lottery at ${new Date()} is: ${this.getState()}`);
 
     for (let bond in this.bonds) {
       const currentDate: Date = new Date();
-      log.debug(`Current date: ${currentDate}`);
       currentDate.setHours(0, 0, 0, 0);
       for (let draw of this.draws[bond]) {
         if (toDate(draw).getTime() === currentDate.getTime()) {
