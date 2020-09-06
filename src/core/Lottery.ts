@@ -7,18 +7,20 @@ import Mailer from './Mailer';
 
 enum LotteryState {
   UP = 'UP',
-  DOWN = 'DOWN'
+  DOWN = 'DOWN',
 }
 
 class Lottery {
   private draws: { [key: string]: [string] };
   private bonds: { [key: string]: [string] };
   private state: LotteryState;
+  private mail: IMailer;
 
-  constructor(configs: config) {
+  constructor(configs: config, mail: IMailer) {
     this.draws = configs.draws;
     this.bonds = configs.bonds;
     this.state = LotteryState.UP;
+    this.mail = mail;
   }
 
   async run(): Promise<void> {
@@ -54,7 +56,8 @@ class Lottery {
         log.info(
           `Congratulations! You've won a prize against the bond ${bond}. For more details, go to sammars.biz.`
         );
-        await new Mailer().sendEmail('');
+
+        await this.mail.sendEmail(process.env.EMAIL_TO as string, '');
       } else if (textContent.indexOf('Sorry') >= 0)
         log.info(
           `I'm sorry. I checked for lottery against the bond ${bond} and founded no prize. Better luck next time!`
