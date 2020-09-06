@@ -2,7 +2,7 @@ import log from './logger';
 import Lottery from './core/Lottery';
 import config from './config';
 import env from 'dotenv';
-import Mailer from './core/Mailer';
+import Mailer from './services/Mailer';
 
 try {
   env.config();
