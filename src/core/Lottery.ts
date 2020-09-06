@@ -3,11 +3,11 @@ import config from '../config';
 import { toDate } from '../utils/ToDate';
 import Axios from 'axios';
 import cheerio from 'cheerio';
-import { Logform } from 'winston';
+import Mailer from './Mailer';
 
 enum LotteryState {
   UP = 'UP',
-  DOWN = 'DOWN',
+  DOWN = 'DOWN'
 }
 
 class Lottery {
@@ -50,11 +50,12 @@ class Lottery {
       const $ = cheerio.load(data);
       const textContent = $.root().text();
 
-      if (textContent.indexOf('Congratulations') >= 0)
+      if (textContent.indexOf('Congratulations') >= 0) {
         log.info(
           `Congratulations! You've won a prize against the bond ${bond}. For more details, go to sammars.biz.`
         );
-      else if (textContent.indexOf('Sorry') >= 0)
+        await new Mailer().sendEmail('');
+      } else if (textContent.indexOf('Sorry') >= 0)
         log.info(
           `I'm sorry. I checked for lottery against the bond ${bond} and founded no prize. Better luck next time!`
         );
