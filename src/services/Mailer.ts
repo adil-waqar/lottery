@@ -10,26 +10,21 @@ class Mailer implements IMailer {
   }
 
   public async sendEmail(to: string, body: string): Promise<void> {
-    log.info(`Sending email.`);
+    log.info(`Sending email to ${to}.`);
 
     const data = new formData();
     data.append('from', 'BondChecker <adil.waqar@lottery.com>');
     data.append('to', to);
     data.append('subject', 'Bond Alert');
-    data.append('text', body);
+    data.append('html', body);
 
     const formHeaders = data.getHeaders();
     try {
-      const response = await Axios.post(this.emailURL, data, {
-        headers: { ...formHeaders },
+      const _ = await Axios.post(this.emailURL, data, {
+        headers: { ...formHeaders }
       });
-      log.info(
-        `Sent an email as alert. Response payload: ${JSON.stringify(
-          response,
-          null,
-          4
-        )}`
-      );
+
+      log.info(`Sent an email as alert to ${to}.`);
     } catch (e) {
       log.error(`Something went wrong while sending email. `, e);
     }

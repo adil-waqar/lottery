@@ -6,6 +6,7 @@ import Mailer from './services/Mailer';
 
 try {
   env.config();
+  //TODO: Make the user conform to a certain standard for lottery.json
   const configs: config = require('../lottery.json');
   const lottery: Lottery = new Lottery(configs, new Mailer());
   lottery.run();

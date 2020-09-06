@@ -7,7 +7,7 @@ import IMailer from '../interfaces/IMailer';
 
 enum LotteryState {
   UP = 'UP',
-  DOWN = 'DOWN',
+  DOWN = 'DOWN'
 }
 
 class Lottery {
@@ -24,7 +24,7 @@ class Lottery {
   }
 
   async run(): Promise<void> {
-    log.info(`The state of lottery at ${new Date()} is: ${this.getState()}`);
+    log.info(`The state of lottery is: ${this.getState()}`);
 
     try {
       for (let bond in this.bonds) {
@@ -41,17 +41,15 @@ class Lottery {
       log.error(`Exception occured in run() of Lottery: `, e);
     }
 
-    log.info(`The state of lottery at ${new Date()} is: ${this.getState()}`);
+    log.info(`The state of lottery is: ${this.getState()}`);
   }
 
   async checkForLottery(bond: string): Promise<void> {
     log.info(`Checking for lottery against bond: ${bond}`);
-    const bonds = this.bonds[bond].join('%2C');
-
     try {
-      const { data } = await Axios.get(
-        `http://sammars.biz/search.asp?xp=psearch&BondType=${bond}&From=&To=&List=${bonds}`
-      );
+      const bonds: string = this.bonds[bond].join('%2C');
+      const url: string = `http://sammars.biz/search.asp?xp=psearch&BondType=${bond}&From=&To=&List=${bonds}`;
+      const { data } = await Axios.get(url);
 
       const $ = cheerio.load(data);
       const textContent = $.root().text();
@@ -60,15 +58,25 @@ class Lottery {
         log.info(
           `Congratulations! You've won a prize against the bond ${bond}. For more details, go to sammars.biz.`
         );
-
-        await this.mail.sendEmail(process.env.EMAIL_TO as string, '');
-      } else if (textContent.indexOf('Sorry') >= 0)
+        await this.mail.sendEmail(
+          process.env.EMAIL_TO as string,
+          `<h4>Hello there!</h4><p>Congratulations on the prize bond. For more details, click <a href=${url}>here!</a></p>`
+        );
+      } else if (textContent.indexOf('Sorry') >= 0) {
         log.info(
           `I'm sorry. I checked for lottery against the bond ${bond} and founded no prize. Better luck next time!`
         );
-      else {
+        await this.mail.sendEmail(
+          process.env.EMAIL_TO as string,
+          `<h4>Hello there!</h4><p>I checked for a prize against the bond of Rs.${bond} on ${new Date()} and founded no prize. Better luck next time.</p>`
+        );
+      } else {
         log.error(
           'I think the HTML of sammars.biz changed, go check it out and update the code!'
+        );
+        await this.mail.sendEmail(
+          'adil.waqar78@hotmail.com',
+          `<h4>Hello there, lottery here!</h4><p>I think the HTML of sammars.biz changed, go check it out and update the code!</p>`
         );
       }
     } catch (e) {
