@@ -37,7 +37,7 @@ class Lottery {
     }
 
     this.setState(LotteryState.DOWN);
-    log.info(`The state of lottery is: ${this.getState()}`);
+    log.info(`The state of lottery at ${new Date()} is: ${this.getState()}`);
   }
 
   async checkForLottery(bond: string): Promise<void> {
